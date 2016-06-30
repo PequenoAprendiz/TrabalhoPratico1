@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-<Form version="1.3" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JFrameFormInfo">
+<Form version="1.5" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JFrameFormInfo">
   <NonVisualComponents>
     <Component class="javax.swing.JPasswordField" name="jPasswordField1">
       <Properties>
@@ -109,9 +109,9 @@
                   </Group>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                      <Component id="txtLogin" alignment="0" max="32767" attributes="0"/>
                       <Component id="txtSenha" max="32767" attributes="0"/>
                       <Component id="txtConfirmaSenha" pref="143" max="32767" attributes="0"/>
+                      <Component id="txtLogin" max="32767" attributes="0"/>
                   </Group>
                   <EmptySpace max="32767" attributes="0"/>
               </Group>
@@ -174,8 +174,6 @@
             <Property name="enabled" type="boolean" value="false"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JTextField" name="txtLogin">
-        </Component>
         <Component class="javax.swing.JButton" name="btnLogin">
           <Properties>
             <Property name="text" type="java.lang.String" value="Login"/>
@@ -216,6 +214,13 @@
         <Component class="javax.swing.JPasswordField" name="txtConfirmaSenha">
           <Properties>
             <Property name="enabled" type="boolean" value="false"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JFormattedTextField" name="txtLogin">
+          <Properties>
+            <Property name="formatterFactory" type="javax.swing.JFormattedTextField$AbstractFormatterFactory" editor="org.netbeans.modules.form.editors.AbstractFormatterFactoryEditor" preCode="try {" postCode="} catch (java.text.ParseException ex) {&#xa;ex.printStackTrace();&#xa;}">
+              <Format format="********" subtype="-1" type="5"/>
+            </Property>
           </Properties>
         </Component>
       </SubComponents>

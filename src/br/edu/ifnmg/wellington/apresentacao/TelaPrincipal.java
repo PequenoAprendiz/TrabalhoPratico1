@@ -47,13 +47,13 @@ public class TelaPrincipal extends javax.swing.JFrame {
         lblLogin = new javax.swing.JLabel();
         lblSenha = new javax.swing.JLabel();
         lblConfirmaSenha = new javax.swing.JLabel();
-        txtLogin = new javax.swing.JTextField();
         btnLogin = new javax.swing.JButton();
         btnLogoff = new javax.swing.JButton();
         btnAlterarSenha = new javax.swing.JButton();
         btnConfirmaSenha = new javax.swing.JButton();
         txtSenha = new javax.swing.JPasswordField();
         txtConfirmaSenha = new javax.swing.JPasswordField();
+        txtLogin = new javax.swing.JFormattedTextField();
         jMenuBar1 = new javax.swing.JMenuBar();
         MenuGestao = new javax.swing.JMenu();
         mnuItemUsuario = new javax.swing.JMenuItem();
@@ -107,6 +107,12 @@ public class TelaPrincipal extends javax.swing.JFrame {
 
         txtConfirmaSenha.setEnabled(false);
 
+        try {
+            txtLogin.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("********")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -119,9 +125,9 @@ public class TelaPrincipal extends javax.swing.JFrame {
                     .addComponent(lblLogin))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(txtLogin)
                     .addComponent(txtSenha)
-                    .addComponent(txtConfirmaSenha, javax.swing.GroupLayout.DEFAULT_SIZE, 143, Short.MAX_VALUE))
+                    .addComponent(txtConfirmaSenha, javax.swing.GroupLayout.DEFAULT_SIZE, 143, Short.MAX_VALUE)
+                    .addComponent(txtLogin))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addComponent(btnLogoff)
@@ -324,7 +330,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
     private javax.swing.JLabel lblSenha;
     private javax.swing.JMenuItem mnuItemUsuario;
     private javax.swing.JPasswordField txtConfirmaSenha;
-    private javax.swing.JTextField txtLogin;
+    private javax.swing.JFormattedTextField txtLogin;
     private javax.swing.JPasswordField txtSenha;
     // End of variables declaration//GEN-END:variables
 
