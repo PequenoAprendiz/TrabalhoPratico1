@@ -308,33 +308,40 @@ public class TelaDeUsuarios extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
 
     private void recuperarCamposTela() throws SQLException {
-        if (txtLogin.getText().trim().equals(""))
+        if (txtLogin.getText().trim().equals("")) {
             throw new LoginInvalidoException("O campo de login está vazio\n");
-        else 
-            this.usuarioEmEdicao.setLogin(txtLogin.getText().trim());        
+        } else {
+            this.usuarioEmEdicao.setLogin(txtLogin.getText().trim());
+        }
 
-        if (txtSenha.getText().trim().equals("")) 
+        if (txtSenha.getText().trim().equals("")) {
             throw new SenhaInvalidaException("Campo Senha está vazio\n");
-        else 
-            this.usuarioEmEdicao.setSenha(txtSenha.getText().trim());        
+        } else {
+            this.usuarioEmEdicao.setSenha(txtSenha.getText().trim());
+        }
 
-        if (txtNomeUsuario.getText().equals("")) 
+        if (txtNomeUsuario.getText().equals("")) {
             throw new LoginInvalidoException("Campo Nome está vazio\n");
-        else 
-            this.usuarioEmEdicao.setNome(txtNomeUsuario.getText().trim());        
+        } else {
+            this.usuarioEmEdicao.setNome(txtNomeUsuario.getText().trim());
+        }
 
-        if (ckbCaixeiro.isSelected()) 
+        if (ckbCaixeiro.isSelected()) {
             this.usuarioEmEdicao.setGrupoUsuario("Caixeiro");
-        
-        if (ckbGerente.isSelected()) 
+        }
+
+        if (ckbGerente.isSelected()) {
             this.usuarioEmEdicao.setGrupoUsuario("Gerente");
-        
-        if (ckbGestorCompras.isSelected()) 
+        }
+
+        if (ckbGestorCompras.isSelected()) {
             this.usuarioEmEdicao.setGrupoUsuario("Gestor de compras");
-        
-        if (ckbGestorEstoque.isSelected())
+        }
+
+        if (ckbGestorEstoque.isSelected()) {
             this.usuarioEmEdicao.setGrupoUsuario("Gestor de estoque");
-        
+        }
+
         verificaEditarOuSalvar(estadoTela, usuarioEmEdicao);
     }
 
@@ -352,6 +359,8 @@ public class TelaDeUsuarios extends javax.swing.JFrame {
             usuarioBO.verificaDados(usuario, this.estadoTela);
             this.limparCamposTela();
             JOptionPane.showMessageDialog(this, "Salvo com sucesso!", "Gerenciamento de usuário", JOptionPane.INFORMATION_MESSAGE);
+        } catch (LoginInvalidoException l) {
+            JOptionPane.showMessageDialog(this, l.getMessage(), "Gerenciamento de usuário", JOptionPane.INFORMATION_MESSAGE);
         } catch (RuntimeException r) {
             JOptionPane.showMessageDialog(this, "algum campo está vazio", "Gerenciamento de usuário", JOptionPane.INFORMATION_MESSAGE);
         }

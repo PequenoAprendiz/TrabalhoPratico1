@@ -1,6 +1,7 @@
 package br.edu.ifnmg.wellington.negocio;
 
 import br.edu.ifnmg.wellington.entidade.Usuario;
+import br.edu.ifnmg.wellington.exception.LoginInvalidoException;
 import br.edu.ifnmg.wellington.persistencia.UsuarioDAO;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -12,16 +13,17 @@ import java.util.List;
  */
 public class UsuarioBO {
 
-    public void verificaDados(Usuario usuarioEmEdicao, int estadoTela) throws SQLException {
-//        List<Usuario>usuarios = new ArrayList<Usuario>();
-//        List<String>grupoTrab = new ArrayList<String>();
-//        
-        if (usuarioEmEdicao.getLogin().trim().isEmpty() && usuarioEmEdicao.getSenha().trim().isEmpty()) {
+    public void verificaDados(Usuario usuarioEmEdicao, int estadoTela) throws SQLException {       
+        UsuarioDAO usuarioDAO = new UsuarioDAO();
+        Usuario u = usuarioDAO.buscarUsuarioPorLogin(usuarioEmEdicao.getLogin());
+        
+        if(u.getLogin().equals(usuarioEmEdicao.getLogin())){
+            throw  new LoginInvalidoException("Já existe usuario com este login!");
+        }else if (usuarioEmEdicao.getLogin().trim().isEmpty() && usuarioEmEdicao.getSenha().trim().isEmpty()) {
             throw new RuntimeException();
         } else if (estadoTela == 1) {         
             this.editarUsuario(usuarioEmEdicao);
-        } else {
-            UsuarioDAO usuarioDAO = new UsuarioDAO();
+        } else {            
             usuarioDAO.salvarUsuario(usuarioEmEdicao);
         }
     }
