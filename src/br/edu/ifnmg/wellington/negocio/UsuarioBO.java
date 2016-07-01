@@ -13,25 +13,27 @@ import java.util.List;
  */
 public class UsuarioBO {
 
-    public void verificaDados(Usuario usuarioEmEdicao, int estadoTela) throws SQLException {       
+    public void verificaDados(Usuario usuarioEmEdicao, int estadoTela) throws SQLException {
         UsuarioDAO usuarioDAO = new UsuarioDAO();
         Usuario u = usuarioDAO.buscarUsuarioPorLogin(usuarioEmEdicao.getLogin());
-        
-        if(u.getLogin().equals(usuarioEmEdicao.getLogin())){
-            throw  new LoginInvalidoException("Já existe usuario com este login!");
-        }else if (usuarioEmEdicao.getLogin().trim().isEmpty() && usuarioEmEdicao.getSenha().trim().isEmpty()) {
-            throw new RuntimeException();
-        } else if (estadoTela == 1) {         
-            this.editarUsuario(usuarioEmEdicao);
-        } else {            
-            usuarioDAO.salvarUsuario(usuarioEmEdicao);
+
+        if (u.getLogin() == null) {
+            if (usuarioEmEdicao.getLogin().trim().isEmpty() && usuarioEmEdicao.getSenha().trim().isEmpty()) {
+                throw new LoginInvalidoException("Login e usuario estão nulos ou os campos estão vazios!");
+            } else if (estadoTela == 1) {
+                this.editarUsuario(usuarioEmEdicao);
+            } else {
+                usuarioDAO.salvarUsuario(usuarioEmEdicao);
+            }
+        } else if (u.getLogin().equals(usuarioEmEdicao.getLogin())) {
+            throw new LoginInvalidoException("Já existe usuario com este login!");
         }
     }
 
     public List<Usuario> buscarTodosUsuarios() throws SQLException {
         UsuarioDAO usuarioDAO = new UsuarioDAO();
         return usuarioDAO.buscarTodosUsuarios();
-    }   
+    }
 
     public void atualizarSenha(Usuario usuarioEmEdicao) throws SQLException {
         UsuarioDAO usuarioDAO = new UsuarioDAO();
@@ -43,7 +45,7 @@ public class UsuarioBO {
         return usuarioDAO.buscarUsuarioPorLogin(login);
     }
 
-    public void excluirUsuario(Usuario  usuario) throws SQLException {
+    public void excluirUsuario(Usuario usuario) throws SQLException {
         UsuarioDAO usuarioDAO = new UsuarioDAO();
         usuarioDAO.removerUsuario(usuario);
     }
