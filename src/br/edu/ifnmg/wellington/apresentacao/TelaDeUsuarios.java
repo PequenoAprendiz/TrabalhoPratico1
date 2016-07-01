@@ -13,6 +13,8 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 
 /**
  *
@@ -29,7 +31,10 @@ public class TelaDeUsuarios extends javax.swing.JFrame {
 
     public TelaDeUsuarios(ListagemUsuarios ListagemUsuarios) {
         initComponents();
+        this.btnSalvar.setEnabled(false);
         this.telaListagemUsuarios = ListagemUsuarios;
+        this.habilitarBotaoSalvar();
+        //this.validaCampos();
     }
 
     public TelaDeUsuarios(Usuario usuario, int estadoTela, ListagemUsuarios ListagemUsuarios) {
@@ -41,6 +46,9 @@ public class TelaDeUsuarios extends javax.swing.JFrame {
 
     public TelaDeUsuarios() {
         initComponents();
+        this.btnSalvar.setEnabled(false);
+        //this.validaCampos();
+        this.habilitarBotaoSalvar();
     }
 
     /**
@@ -53,7 +61,6 @@ public class TelaDeUsuarios extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        txtLogin = new javax.swing.JTextField();
         lblSenha = new javax.swing.JLabel();
         lblLogin = new javax.swing.JLabel();
         txtNomeUsuario = new javax.swing.JTextField();
@@ -68,6 +75,7 @@ public class TelaDeUsuarios extends javax.swing.JFrame {
         btnSalvar = new javax.swing.JButton();
         btnFechar = new javax.swing.JButton();
         btnExcluir = new javax.swing.JButton();
+        txtLogin = new javax.swing.JFormattedTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Tela de Usuarios");
@@ -145,6 +153,12 @@ public class TelaDeUsuarios extends javax.swing.JFrame {
             }
         });
 
+        try {
+            txtLogin.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("********")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -172,7 +186,7 @@ public class TelaDeUsuarios extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(txtLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(txtLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
                                 .addComponent(lblSenha)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -190,9 +204,9 @@ public class TelaDeUsuarios extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblLogin)
-                    .addComponent(txtLogin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lblSenha)
-                    .addComponent(txtSenha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtSenha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtLogin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -235,6 +249,7 @@ public class TelaDeUsuarios extends javax.swing.JFrame {
             Logger.getLogger(TelaDeUsuarios.class.getName()).log(Level.SEVERE, null, ex);
         }
         this.dispose();
+        this.btnSalvar.setEnabled(false);
     }//GEN-LAST:event_btnFecharActionPerformed
 
     private void btnPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPesquisarActionPerformed
@@ -302,10 +317,43 @@ public class TelaDeUsuarios extends javax.swing.JFrame {
     private javax.swing.JLabel lblLogin;
     private javax.swing.JLabel lblNome;
     private javax.swing.JLabel lblSenha;
-    private javax.swing.JTextField txtLogin;
+    private javax.swing.JFormattedTextField txtLogin;
     private javax.swing.JTextField txtNomeUsuario;
     private javax.swing.JPasswordField txtSenha;
     // End of variables declaration//GEN-END:variables
+
+    private void habilitarBotaoSalvar() {
+        txtSenha.getDocument().addDocumentListener(
+                new DocumentListener() {
+            String str1;
+
+            @Override
+            public void removeUpdate(DocumentEvent arg0) {
+                str1 = txtSenha.getText();
+                if (str1.length() < 1) {
+                    btnSalvar.setEnabled(false); //Botão Ok desabilitado
+                }
+            }
+
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                btnSalvar.setEnabled(true); //Botão Ok habilitado
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                btnSalvar.setEnabled(true); //Botão Ok habilitado
+            }
+
+        });
+    }
+
+    public void validaCampos() {
+
+        if (txtLogin.getSelectedText() != null && txtNomeUsuario.getSelectedText() != null && txtSenha.getSelectedText() != null) {
+            btnSalvar.setEnabled(true);;
+        }
+    }
 
     private void recuperarCamposTela() throws SQLException {
         if (txtLogin.getText().trim().equals("")) {
